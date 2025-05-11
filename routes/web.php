@@ -11,6 +11,7 @@ use App\Http\Controllers\FrontDesk\RoomController as FrontDeskRoomController;
 use App\Http\Controllers\Finance\FinanceController;
 use App\Http\Controllers\Finance\FinanceBookingController;
 use App\Http\Controllers\Finance\FinanceInventoryController;
+use App\Http\Controllers\HR\HRController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\BookingController as UserBookingController;
@@ -111,6 +112,47 @@ Route::middleware(['auth', 'finance'])->prefix('finance')->name('finance.')->gro
     Route::post('/bookings/{booking}/reject', [FinanceBookingController::class, 'reject'])->name('bookings.reject');
     Route::resource('inventory-requests', FinanceInventoryController::class)->only(['index', 'show']);
 });
+
+// HR routes
+Route::middleware(['auth', 'verified', 'hr'])->prefix('hr')->name('hr.')->group(function () {
+    // Dashboard
+    Route::get('/dashboard', [HRController::class, 'dashboard'])->name('dashboard');
+    
+    // Attendance Routes
+    Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance.index');
+    Route::get('/attendance/create', [AttendanceController::class, 'create'])->name('attendance.create');
+    Route::post('/attendance', [AttendanceController::class, 'store'])->name('attendance.store');
+    Route::get('/attendance/{attendance}', [AttendanceController::class, 'show'])->name('attendance.show');
+    
+    // Payroll
+    Route::prefix('payroll')->group(function () {
+        Route::get('/', [HRController::class, 'payroll'])->name('payroll.index');
+        Route::get('/salary', [HRController::class, 'salary'])->name('payroll.salary');
+        Route::get('/payslip', [HRController::class, 'payslip'])->name('payroll.payslip');
+        Route::get('/run', [HRController::class, 'runPayroll'])->name('payroll.run'); // Add this line
+        Route::post('/process', [HRController::class, 'processPayroll'])->name('payroll.process');
+    });
+
+     // Events Routes
+    Route::get('/events', [EventController::class, 'index'])->name('events.index');
+    Route::get('/events/create', [EventController::class, 'create'])->name('events.create');
+    Route::post('/events', [EventController::class, 'store'])->name('events.store');
+    Route::get('/events/{event}/edit', [EventController::class, 'edit'])->name('events.edit');
+    Route::put('/events/{event}', [EventController::class, 'update'])->name('events.update');
+    Route::delete('/events/{event}', [EventController::class, 'destroy'])->name('events.destroy');
+    
+    // Leave Management
+    Route::get('/leave', [HRController::class, 'leave'])->name('leave.index');
+    Route::get('/leave/create', [HRController::class, 'createLeave'])->name('leave.create');
+    Route::post('/leave', [HRController::class, 'storeLeave'])->name('leave.store');
+    
+    // Employees
+    Route::resource('employees', HRController::class)->except(['show']);
+    
+    // HR Activities
+    Route::get('/activities', [HRController::class, 'activities'])->name('activity');
+});
+
 
 // Admin routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {

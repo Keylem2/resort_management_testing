@@ -20,6 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'front_desk' => FrontDeskMiddleware::class,
             'user_only' => \App\Http\Middleware\UserOnlyMiddleware::class,
             'finance' => \App\Http\Middleware\FinanceMiddleware::class,
+            'hr' => \App\Http\Middleware\HRMiddleware::class,
             'prevent.duplicate.booking' => \App\Http\Middleware\PreventDuplicateBooking::class,
         ]);
     })

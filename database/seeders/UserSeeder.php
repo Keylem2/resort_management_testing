@@ -51,6 +51,15 @@ class UserSeeder extends Seeder
             'email_verified_at' => Carbon::now(), // Marking the email as verified
             'remember_token' => \Str::random(10),
         ]);
+
+        User::create([
+            'name' => 'HR Manager',
+            'email' => 'hr@example.com',
+            'password' => bcrypt('password'),
+            'usertype' => 'hr',
+            'email_verified_at' => now(),
+            'remember_token' => \Str::random(10),
+        ]);
         
     }
 }

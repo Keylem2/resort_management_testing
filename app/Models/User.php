@@ -54,6 +54,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->usertype === 'staff';
     }
 
+    public function isHR()
+    {
+    return strtolower($this->usertype) === 'hr';
+    }
+
     // Relationships
     public function bookings()
     {
