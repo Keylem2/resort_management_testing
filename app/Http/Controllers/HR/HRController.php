@@ -130,11 +130,41 @@ public function processPayroll(Request $request)
 }
 
 
+    public function leave()
+    {
+        // Fetch all leave requests
+        $leaveRequests = LeaveRequest::with('employee')->latest()->paginate(10);
+
+        // Return the leave index view
+        return view('hr.leave.index', compact('leaveRequests'));
+    }
+
     public function createLeave()
-{
-    $employees = Employee::all();
-    return view('hr.leave.create', compact('employees'));
-}
+    {
+        // Get all employees for the leave request form
+        $employees = Employee::all();
+
+        // Return the leave create view
+        return view('hr.leave.create', compact('employees'));
+    }
+
+    public function storeLeave(Request $request)
+    {
+        // Validate the request
+        $request->validate([
+            'employee_id' => 'required|exists:employees,id',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'reason' => 'required|string|max:255',
+            'status' => 'required|in:pending,approved,rejected',
+        ]);
+
+        // Create the leave request
+        LeaveRequest::create($request->all());
+
+        // Redirect back with success message
+        return redirect()->route('hr.leave.index')->with('success', 'Leave request created successfully.');
+    }
 
 public function events()
 {
@@ -192,4 +222,45 @@ public function destroyEvent($id)
     return redirect()->route('hr.events.index')->with('success', 'Event deleted successfully.');
 }
 
+// Employees section
+public function index()
+{
+    // Fetch all employees with pagination
+    $employees = Employee::paginate(10);
+
+    // Return the view with the employee data
+    return view('hr.employees.index', compact('employees'));
+}
+
+public function create()
+{
+    // Return the create employee view
+    return view('hr.employees.create');
+}
+
+public function store(Request $request)
+{
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:employees,email',
+        'phone' => 'nullable|string|max:255',
+        'department' => 'required|string|max:255',
+        'position' => 'required|string|max:255',
+        'salary' => 'required|numeric|min:0',
+        'status' => 'required|in:active,inactive',
+    ]);
+
+    Employee::create($validated);
+
+    return redirect()->route('hr.employees.index')->with('success', 'Employee added successfully!');
+}
+
+public function activities()
+    {
+        // Fetch the latest HR activities
+        $activities = HRActivity::latest()->paginate(10);
+
+        return view('HR.activities.index', compact('activities'));
+    }
+    
 }

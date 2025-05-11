@@ -6,8 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class LeaveRequest extends Model
 {
-    protected $fillable = [
-        'employee_id', 'start_date', 'end_date', 'leave_type', 'reason', 'status'
+    protected $fillable = ['employee_id', 'start_date', 'end_date', 'reason', 'status'];
+
+    protected $casts = [
+        'start_date' => 'date:Y-m-d',
+        'end_date' => 'date:Y-m-d',
     ];
 
     public function employee()
