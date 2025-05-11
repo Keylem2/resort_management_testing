@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom CSS */
+.room-option.selected {
+  @apply border-amber-500 bg-amber-50 ring-2 ring-amber-400;
+}
+
+.room-option {
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.room-option:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.room-option.selected {
+    border: 2px solid #f59e0b !important;
+    background-color: #fffbeb !important;
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.3);
+}
