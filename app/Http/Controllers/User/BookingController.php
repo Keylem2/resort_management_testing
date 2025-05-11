@@ -240,4 +240,6 @@ public function gcashPayment($booking_id)
     return view('user.payments.gcash', compact('booking'));
 }
 
+// end
+
 }
