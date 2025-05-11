@@ -92,9 +92,11 @@
                         <a href="{{ route('hr.payroll.salary') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 rounded-lg {{ request()->routeIs('hr.payroll.salary') ? 'text-blue-600 font-medium' : '' }}">
                             Salary
                         </a>
-                        <a href="{{ route('hr.payroll.payslip') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 rounded-lg {{ request()->routeIs('hr.payroll.payslip') ? 'text-blue-600 font-medium' : '' }}">
-                            Payslip
-                        </a>
+                        <a href="{{ route('hr.payroll.payslip', ['employee' => Auth::user()->employee_id]) }}" 
+   class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 rounded-lg 
+          {{ request()->routeIs('hr.payroll.payslip') ? 'text-blue-600 font-medium' : '' }}">
+    Payslip
+</a>
                     </div>
                 </div>
 

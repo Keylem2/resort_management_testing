@@ -14,11 +14,12 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             EmployeeSeeder::class,
-            AttendanceSeeder::class,
+            UserSeeder::class,
             LeaveRequestSeeder::class,
             PayrollSeeder::class,
             HRActivitySeeder::class,
             EventSeeder::class,
+            AttendanceSeeder::class,
         ]);
     }
 }

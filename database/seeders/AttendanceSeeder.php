@@ -3,8 +3,9 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Attendance;
 use App\Models\Employee;
+use App\Models\Attendance;
+use Carbon\Carbon;
 use Faker\Factory as Faker;
 
 class AttendanceSeeder extends Seeder
@@ -13,21 +14,30 @@ class AttendanceSeeder extends Seeder
     {
         $faker = Faker::create();
 
+        // Get all employees
         $employees = Employee::all();
 
         foreach ($employees as $employee) {
-            for ($i = 0; $i < 20; $i++) {
-                $checkIn = $faker->dateTimeBetween('-1 month', 'now');
-                $checkOut = (clone $checkIn)->modify('+8 hours');
-                $late = $faker->boolean(30); // 30% chance of being late
+            // Seed attendance for the last 30 days
+            for ($i = 0; $i < 30; $i++) {
+                $date = Carbon::now()->subDays($i);
+                
+                // Random check-in and check-out times
+                $checkIn = $faker->time('H:i:s', '09:30:00');
+                $checkOut = $faker->time('H:i:s', '18:00:00');
+                $isLate = $checkIn > '09:00:00';
 
                 Attendance::create([
                     'employee_id' => $employee->id,
-                    'date' => $checkIn->format('Y-m-d'),
-                    'check_in' => $checkIn->format('H:i:s'),
-                    'check_out' => $checkOut->format('H:i:s'),
-                    'late' => $late,
+                    'date' => $date->toDateString(),
+                    'check_in' => $checkIn,
+                    'check_out' => $checkOut,
+                    'late' => $isLate,
+                    'created_at' => now(),
+                    'updated_at' => now(),
                 ]);
+
+                echo "Attendance for Employee ID: {$employee->id} on {$date->toDateString()} added.\n";
             }
         }
     }

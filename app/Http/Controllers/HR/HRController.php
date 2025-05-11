@@ -115,14 +115,20 @@ public function processPayroll(Request $request)
 }
 
     public function salary()
-    {
-        return view('hr.payroll.salary');
-    }
+{
+    // Fetch all employees
+    $employees = Employee::paginate(10);
 
-    public function payslip()
-    {
-        return view('hr.payroll.payslip');
-    }
+    // Return the salary view with the employees data
+    return view('hr.payroll.salary', compact('employees'));
+}
+
+    public function payslip($employeeId)
+{
+    $employee = Employee::findOrFail($employeeId);
+    return view('hr.payroll.payslip', compact('employee'));
+}
+
 
     public function createLeave()
 {

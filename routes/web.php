@@ -12,6 +12,7 @@ use App\Http\Controllers\Finance\FinanceController;
 use App\Http\Controllers\Finance\FinanceBookingController;
 use App\Http\Controllers\Finance\FinanceInventoryController;
 use App\Http\Controllers\HR\HRController;
+use App\Http\Controllers\HR\AttendanceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\BookingController as UserBookingController;
@@ -124,14 +125,14 @@ Route::middleware(['auth', 'verified', 'hr'])->prefix('hr')->name('hr.')->group(
     Route::post('/attendance', [AttendanceController::class, 'store'])->name('attendance.store');
     Route::get('/attendance/{attendance}', [AttendanceController::class, 'show'])->name('attendance.show');
     
-    // Payroll
-    Route::prefix('payroll')->group(function () {
-        Route::get('/', [HRController::class, 'payroll'])->name('payroll.index');
-        Route::get('/salary', [HRController::class, 'salary'])->name('payroll.salary');
-        Route::get('/payslip', [HRController::class, 'payslip'])->name('payroll.payslip');
-        Route::get('/run', [HRController::class, 'runPayroll'])->name('payroll.run'); // Add this line
-        Route::post('/process', [HRController::class, 'processPayroll'])->name('payroll.process');
-    });
+    // Payroll Routes
+Route::prefix('payroll')->name('payroll.')->group(function () {
+    Route::get('/', [HRController::class, 'payroll'])->name('index');
+    Route::get('/salary', [HRController::class, 'salary'])->name('salary');
+    Route::get('/payslip/{employee}', [HRController::class, 'payslip'])->name('payslip'); // ✅ Fixed this line
+    Route::get('/run', [HRController::class, 'runPayroll'])->name('run');
+    Route::post('/process', [HRController::class, 'processPayroll'])->name('process');
+});
 
      // Events Routes
     Route::get('/events', [EventController::class, 'index'])->name('events.index');
