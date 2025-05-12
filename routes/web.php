@@ -11,6 +11,12 @@ use App\Http\Controllers\FrontDesk\RoomController as FrontDeskRoomController;
 use App\Http\Controllers\Finance\FinanceController;
 use App\Http\Controllers\Finance\FinanceBookingController;
 use App\Http\Controllers\Finance\FinanceInventoryController;
+use App\Http\Controllers\StaffHead\StaffHeadDashboardController;
+use App\Http\Controllers\StaffHead\StaffHeadController;
+use App\Http\Controllers\StaffHead\TeamController;
+use App\Http\Controllers\StaffHead\AttendanceController as StaffHeadAttendanceController;
+use App\Http\Controllers\StaffHead\LeaveRequestController as StaffHeadLeaveRequestController;
+use App\Http\Controllers\StaffHead\AnnouncementController;
 use App\Http\Controllers\HR\HRController;
 use App\Http\Controllers\HR\AttendanceController;
 use App\Http\Controllers\ProfileController;
@@ -153,6 +159,43 @@ Route::prefix('payroll')->name('payroll.')->group(function () {
     // HR Activities
     Route::get('/activities', [HRController::class, 'activities'])->name('activity');
 });
+
+// Staff Head routes
+Route::middleware(['auth', 'verified', 'staff_head'])->prefix('staff-head')->name('staff_head.')->group(function () {
+    // Dashboard
+    Route::get('/dashboard', [StaffHeadController::class, 'dashboard'])->name('dashboard');
+    
+    // Team Management
+    Route::get('/team', [StaffHeadController::class, 'teamIndex'])->name('team.index');
+    Route::get('/team/{employee}', [StaffHeadController::class, 'teamShow'])->name('team.show');
+    Route::get('/team/{employee}/edit', [StaffHeadController::class, 'teamEdit'])->name('team.edit');
+    Route::put('/team/{employee}', [StaffHeadController::class, 'teamUpdate'])->name('team.update');
+
+    // Attendance Oversight
+    Route::get('/attendance', [StaffHeadAttendanceController::class, 'attendanceIndex'])->name('attendance.index');
+    Route::post('/attendance/{employee}', [StaffHeadAttendanceController::class, 'attendanceStore'])->name('attendance.store');
+    Route::post('/attendance/mark', [StaffHeadAttendanceController::class, 'markAttendance'])->name('attendance.mark');
+
+    // Shift Management
+    Route::get('/shifts', [StaffHeadController::class, 'shiftsIndex'])->name('shifts.index');
+    Route::get('/shifts/create', [StaffHeadController::class, 'shiftsCreate'])->name('shifts.create');
+    Route::post('/shifts', [StaffHeadController::class, 'shiftsStore'])->name('shifts.store');
+    Route::get('/shifts/{shift}/edit', [StaffHeadController::class, 'shiftsEdit'])->name('shifts.edit');
+    Route::put('/shifts/{shift}', [StaffHeadController::class, 'shiftsUpdate'])->name('shifts.update');
+    Route::delete('/shifts/{shift}', [StaffHeadController::class, 'shiftsDestroy'])->name('shifts.destroy');
+
+    // Leave Requests Routes (Fix)
+    Route::get('/leave-requests', [StaffHeadLeaveRequestController::class, 'index'])->name('leave.index');
+    Route::get('/leave-requests/{id}', [StaffHeadLeaveRequestController::class, 'show'])->name('leave.show');
+    Route::post('/leave-requests/{id}/approve', [StaffHeadLeaveRequestController::class, 'approve'])->name('leave.approve');
+    Route::post('/leave-requests/{id}/reject', [StaffHeadLeaveRequestController::class, 'reject'])->name('leave.reject');
+    
+    // Announcements Routes
+    Route::get('/announcements', [AnnouncementController::class, 'index'])->name('announcements.index');
+    Route::get('/announcements/create', [AnnouncementController::class, 'create'])->name('announcements.create');
+    Route::post('/announcements', [AnnouncementController::class, 'store'])->name('announcements.store');
+});
+
 
 
 // Admin routes

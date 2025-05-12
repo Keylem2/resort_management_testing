@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             EventSeeder::class,
             AttendanceSeeder::class,
             HRActivitySeeder::class,
+            AnnouncementSeeder::class,
         ]);
     }
 }

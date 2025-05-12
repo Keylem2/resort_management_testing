@@ -21,6 +21,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'user_only' => \App\Http\Middleware\UserOnlyMiddleware::class,
             'finance' => \App\Http\Middleware\FinanceMiddleware::class,
             'hr' => \App\Http\Middleware\HRMiddleware::class,
+            'staff_head' => \App\Http\Middleware\StaffHeadMiddleware::class,
             'prevent.duplicate.booking' => \App\Http\Middleware\PreventDuplicateBooking::class,
         ]);
     })

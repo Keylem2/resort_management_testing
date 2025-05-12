@@ -39,6 +39,8 @@
     <a href="{{ route('finance.dashboard') }}" class="py-1">Finance Dashboard</a>
   @elseif(auth()->user()->usertype === 'hr')
     <a href="{{ route('hr.dashboard') }}" class="py-1">HR Dashboard</a>
+    @elseif(auth()->user()->usertype === 'staff_head')
+    <a href="{{ route('staff_head.dashboard') }}" class="py-1">Staff Head Dashboard</a>
   @else
     <a href="{{ route('dashboard') }}" class="py-1">My Dashboard</a>
   @endif

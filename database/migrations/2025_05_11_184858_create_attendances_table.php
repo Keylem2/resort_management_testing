@@ -10,11 +10,11 @@ class CreateAttendancesTable extends Migration
     {
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('employee_id')->constrained('employees')->onDelete('cascade');
+            $table->foreignId('employee_id')->constrained()->cascadeOnDelete();
             $table->date('date');
             $table->time('check_in')->nullable();
             $table->time('check_out')->nullable();
-            $table->boolean('late')->default(false);
+            $table->boolean('late')->default(0);  // Use boolean for late
             $table->timestamps();
         });
     }

@@ -53,6 +53,19 @@ class EmployeeSeeder extends Seeder
                 'status' => 'active',
                 'user_id' => 13,
             ],
+            [
+                'id' => 62,
+                'employee_code' => 'SH-001',
+                'name' => 'Staff Head',
+                'email' => 'staff_head@resort.com',
+                'position' => 'Staff Head',
+                'department' => 'Staff Head',
+                'hire_date' => '2023-01-01',
+                'phone' => '0912156111',
+                'salary' => 18000,
+                'status' => 'active',
+                'user_id' => 12,
+            ],
         ];
 
         // Create or update employees
