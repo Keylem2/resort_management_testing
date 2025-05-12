@@ -3,6 +3,7 @@
 use App\Models\Booking;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminBookingController;
+use App\Http\Controllers\HR\EmployeeController;
 use App\Http\Controllers\Admin\RoomController as AdminRoomController;
 use App\Http\Controllers\Admin\InventoryController;
 use App\Http\Controllers\Admin\StaffController;
@@ -156,6 +157,7 @@ Route::prefix('payroll')->name('payroll.')->group(function () {
     
     // Employees
     Route::resource('employees', HRController::class)->except(['show']);
+    Route::resource('employees', EmployeeController::class);
     
     // HR Activities
     Route::get('/activities', [HRController::class, 'activities'])->name('activity');
