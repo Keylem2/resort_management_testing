@@ -8,6 +8,7 @@
         <thead>
             <tr>
                 <th class="px-4 py-2 border">Employee ID</th>
+                <th class="px-4 py-2 border">Employee Name</th>
                 <th class="px-4 py-2 border">Date</th>
                 <th class="px-4 py-2 border">Check In</th>
                 <th class="px-4 py-2 border">Check Out</th>
@@ -19,6 +20,7 @@
             @foreach($attendances as $attendance)
             <tr>
                 <td class="px-4 py-2 border">{{ $attendance->employee_id }}</td>
+                <td class="px-4 py-2 border">{{ $attendance->employee->name }}</td>
                 <td class="px-4 py-2 border">{{ $attendance->date }}</td>
                 <td class="px-4 py-2 border">{{ $attendance->check_in }}</td>
                 <td class="px-4 py-2 border">{{ $attendance->check_out ?? 'N/A' }}</td>

@@ -25,6 +25,7 @@ class AttendanceController extends Controller
             'employee_id' => $request->employee_id,
             'date' => now()->format('Y-m-d'),
             'check_in' => now()->format('H:i:s'),
+            'check_out' => 'nullable|date_format:H:i|after:check_in',
             'late' => $request->has('late'),
         ]);
 
@@ -32,25 +33,37 @@ class AttendanceController extends Controller
     }
 
     public function markAttendance(Request $request)
-    {
-        $employeeId = $request->input('employee_id');
-        $today = Carbon::today();
+{
+    // Validate the input
+    $request->validate([
+        'employee_id' => 'required|exists:employees,id',
+        'date' => 'required|date',
+        'check_in' => 'nullable|date_format:H:i',
+        'check_out' => 'nullable|date_format:H:i',
+        'late' => 'nullable|boolean',
+    ]);
 
-        // Check if attendance already exists
-        $existing = Attendance::where('employee_id', $employeeId)
-            ->whereDate('date', $today)
-            ->first();
+    // Logic to store attendance in the database
+    $attendance = Attendance::create([
+        'employee_id' => $request->employee_id,
+        'date' => $request->date,
+        'check_in' => $request->check_in,
+        'check_out' => $request->check_out,
+        'late' => $request->late ?? false,
+    ]);
 
-        if (!$existing) {
-            Attendance::create([
-                'employee_id' => $employeeId,
-                'date' => $today,
-                'check_in' => now(),
-            ]);
-        }
+    // Redirect back to the attendance page with success message
+    return redirect()->route('staff_head.attendance.index')->with('success', 'Attendance marked successfully!');
+}
 
-        return redirect()->route('staff_head.attendance.index')->with('success', 'Attendance marked successfully.');
-    }
+    public function showMarkAttendanceForm()
+{
+    $employees = Employee::where('department', 'HR') // or relevant department
+                  ->whereIn('position', ['Housekeeper', 'Lifeguard'])
+                  ->get();
+                  
+    return view('staff_head.attendance.mark', compact('employees'));
+}
 
      public function attendanceIndex()
     {
@@ -61,4 +74,12 @@ class AttendanceController extends Controller
         return view('staff_head.attendance.index', compact('teamMembers'));
     }
     
+    public function attendanceStore(Request $request)
+    {
+    // Your logic for storing attendance goes here
+    }
+
+    
+
+
 }

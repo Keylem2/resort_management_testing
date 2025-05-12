@@ -50,4 +50,10 @@ class Employee extends Model
     {
         return $this->hasMany(Event::class);
     }
-}
+
+    public function department()
+    {
+    return $this->belongsTo(Department::class);  // If you create a Department model
+    }
+    
+    }

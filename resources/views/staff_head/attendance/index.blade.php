@@ -31,7 +31,7 @@
                             @endif
                         </td>
                         <td class="py-2 px-4">
-                            <form action="{{ route('staff_head.attendance.mark') }}" method="POST">
+                            <form action="{{ route('attendance.mark.form', $member->id) }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="employee_id" value="{{ $member->id }}">
                                 <button type="submit" class="text-blue-600 hover:text-blue-800">Mark Present</button>

@@ -73,6 +73,15 @@ class UserSeeder extends Seeder
                 'email_verified_at' => now(),
                 'remember_token' => \Str::random(10),
             ],
+            [
+                'name' => 'Life Guard1',
+                'email' => 'life_guard1@example.com',
+                'password' => bcrypt('password'),
+                'usertype' => 'life_guard',
+                'employee_id' => 67, // Match with employee ID
+                'email_verified_at' => now(),
+                'remember_token' => \Str::random(10),
+            ],
         ];
 
         // Create users

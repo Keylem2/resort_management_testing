@@ -27,17 +27,20 @@
 
             <div class="mb-4">
                 <label for="department" class="block text-gray-700 font-semibold mb-2">Department</label>
-                <input type="text" id="department" name="department" class="w-full p-2 border border-gray-300 rounded-lg">
+                <select name="department" id="department" class="w-full p-2 border border-gray-300 rounded-lg" required>
+                    <option value="">Select Department</option>
+                    <option value="HR">HR</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Front Office">Front Office</option>
+                    <option value="Staff">Staff</option>
+                </select>
             </div>
 
             <div class="mb-4">
                 <label for="position" class="block text-gray-700 font-semibold mb-2">Position</label>
-                <input type="text" id="position" name="position" class="w-full p-2 border border-gray-300 rounded-lg" required>
-            </div>
-
-            <div class="mb-4">
-                <label for="hire_date" class="block text-gray-700 font-semibold mb-2">Hire Date</label>
-                <input type="date" id="hire_date" name="hire_date" class="w-full p-2 border border-gray-300 rounded-lg">
+                <select name="position" id="position" class="w-full p-2 border border-gray-300 rounded-lg" required>
+                    <option value="">Select Department First</option>
+                </select>
             </div>
 
             <div class="mb-4">
@@ -57,4 +60,53 @@
         </form>
     </div>
 </div>
+
+@section('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    console.log("DOM fully loaded");
+    
+    const departmentSelect = document.getElementById('department');
+    const positionSelect = document.getElementById('position');
+    
+    const departmentPositions = {
+        'HR': ['Staff Head', 'Lifeguard', 'Housekeeper'],
+        'Finance': ['Finance Head', 'Inventory Manager', 'Sales Clerk'],
+        'Front Office': ['Front Desk Staff'],
+        'Staff': ['Staff Head', 'Housekeeper', 'Lifeguard']
+    };
+
+    function updatePositions() {
+        console.log("Function updatePositions called");
+        const selectedDepartment = departmentSelect.value;
+        console.log("Selected department:", selectedDepartment);
+
+        // Clear existing options
+        positionSelect.innerHTML = '<option value="">Select Position</option>';
+
+        // Add positions if department is selected
+        if (selectedDepartment && departmentPositions[selectedDepartment]) {
+            console.log("Adding positions for:", selectedDepartment);
+            departmentPositions[selectedDepartment].forEach(position => {
+                const option = document.createElement('option');
+                option.value = position;
+                option.textContent = position;
+                positionSelect.appendChild(option);
+            });
+        }
+    }
+
+    // Initialize
+    updatePositions();
+
+    // Add event listener
+    departmentSelect.addEventListener('change', function() {
+        console.log("Department change detected");
+        updatePositions();
+    });
+});
+
+</script>
+@endsection
+
 @endsection

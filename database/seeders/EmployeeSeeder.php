@@ -46,7 +46,7 @@ class EmployeeSeeder extends Seeder
                 'name' => 'Front Desk Staff',
                 'email' => 'frontdesk@resort.com',
                 'position' => 'Front Desk Staff',
-                'department' => 'Front Desk',
+                'department' => 'Front Office',
                 'hire_date' => '2023-01-01',
                 'phone' => '09173456789',
                 'salary' => 15000,
@@ -65,6 +65,19 @@ class EmployeeSeeder extends Seeder
                 'salary' => 18000,
                 'status' => 'active',
                 'user_id' => 12,
+            ],
+            [
+                'id' => 67,
+                'employee_code' => 'LG-001',
+                'name' => 'Life Guard1',
+                'email' => 'life_guard1@example.com',
+                'position' => 'Life Guard',
+                'department' => 'HR',
+                'hire_date' => '2023-01-01',
+                'phone' => '0912156115',
+                'salary' => 8000,
+                'status' => 'active',
+                'user_id' => 31,
             ],
         ];
 

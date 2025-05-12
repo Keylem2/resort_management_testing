@@ -122,6 +122,8 @@
       </p>
       <a id="reserveNowBtn" href="{{ route('register') }}" class="bg-yellow-400 hover:bg-yellow-500 text-white font-semibold text-lg md:text-xl px-10 py-4 rounded-xl shadow-lg transform transition duration-300 ease-in-out hover:scale-105">
         Reserve Now
+      <a href="{{ route('virtual.tour') }}" class="bg-white text-blue-700 font-semibold text-lg md:text-xl px-10 py-4 rounded-xl shadow-lg hover:bg-blue-100 transform transition duration-300 ease-in-out hover:scale-105">
+        Virtual Tour
       </a>
     </div>
   </section>
