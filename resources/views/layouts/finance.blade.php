@@ -88,7 +88,7 @@
                 </a>
 
                 <!-- Inventory Requests -->
-                <a href="{{ route('finance.inventory.index') }}" class="flex items-center px-4 py-3 text-gray-700 hover:bg-green-50 rounded-lg group {{ request()->routeIs('finance.inventory.*') ? 'active-menu' : '' }}">
+                <a href="{{ route('finance.inventory-requests.index')}}" class="flex items-center px-4 py-3 text-gray-700 hover:bg-green-50 rounded-lg group {{ request()->routeIs('finance.inventory.*') ? 'active-menu' : '' }}">
                     <i class="fas fa-boxes mr-3 text-gray-500 group-hover:text-green-500 {{ request()->routeIs('finance.inventory.*') ? 'text-green-500' : '' }}"></i>
                     Inventory Requests
                     @php

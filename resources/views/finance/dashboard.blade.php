@@ -9,7 +9,7 @@
         <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-lg font-bold text-gray-800">Pending Bookings</h3>
-                <a href="{{ route('finance.bookings.pending') }}" class="text-blue-500 hover:text-blue-700 text-sm font-medium">View All</a>
+                <a href="{{ route('finance.bookings.index') }}" class="text-blue-500 hover:text-blue-700 text-sm font-medium">View All</a>
             </div>
             @php
                 $pendingBookings = App\Models\Booking::where('status', 'pending')
@@ -23,7 +23,7 @@
                 <ul class="space-y-3">
                     @foreach($pendingBookings as $booking)
                     <li class="border-b pb-2 last:border-0 last:pb-0">
-                        <a href="{{ route('finance.bookings.review', $booking) }}" class="block hover:bg-gray-50 p-2 rounded">
+                        <a href="{{ route('finance.bookings.show', $booking) }}" class="block hover:bg-gray-50 p-2 rounded">
                             <div class="flex justify-between">
                                 <span class="font-medium">#{{ $booking->id }} - {{ $booking->room->room_type }}</span>
                                 <span class="text-gray-500">{{ $booking->created_at->diffForHumans() }}</span>
@@ -45,7 +45,7 @@
         <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-lg font-bold text-gray-800">Pending Inventory Requests</h3>
-                <a href="{{ route('finance.inventory.index') }}" class="text-blue-500 hover:text-blue-700 text-sm font-medium">View All</a>
+               <a href="{{ route('finance.inventory-requests.index') }}" class="text-blue-500 hover:text-blue-700 text-sm font-medium">View All</a>
             </div>
             @php
                 $pendingRequests = App\Models\InventoryRequest::where('status', 'pending')
@@ -59,7 +59,7 @@
                 <ul class="space-y-3">
                     @foreach($pendingRequests as $request)
                     <li class="border-b pb-2 last:border-0 last:pb-0">
-                        <a href="{{ route('finance.inventory.show', $request) }}" class="block hover:bg-gray-50 p-2 rounded">
+                        <a href="{{ route('finance.inventory-requests.show', $request) }}" class="block hover:bg-gray-50 p-2 rounded">
                             <div class="flex justify-between">
                                 <span class="font-medium">{{ $request->inventoryItem->name }}</span>
                                 <span class="text-gray-500">{{ $request->created_at->diffForHumans() }}</span>

@@ -114,6 +114,7 @@ Route::middleware(['auth', 'front_desk'])->prefix('frontdesk')->name('frontdesk.
 // Finance routes
 Route::middleware(['auth', 'finance'])->prefix('finance')->name('finance.')->group(function () {
     Route::get('/dashboard', [FinanceController::class, 'index'])->name('dashboard');
+    Route::get('/bookings/pending', [FinanceBookingController::class, 'pending'])->name('bookings.pending');
     Route::resource('bookings', FinanceBookingController::class)->only(['index', 'show']);
     Route::post('/bookings/{booking}/approve', [FinanceBookingController::class, 'approve'])->name('bookings.approve');
     Route::post('/bookings/{booking}/reject', [FinanceBookingController::class, 'reject'])->name('bookings.reject');

@@ -42,7 +42,7 @@
     </style>
 </head>
 <body class="bg-gray-50">
-    @if(auth()->check() && auth()->user()->usertype === 'staff_head')
+@if(auth()->check() && auth()->user()->usertype === 'staff_head')
     <div class="flex h-screen overflow-hidden">
         <!-- Sidebar -->
         <div class="sidebar w-64 bg-white shadow-md hidden md:block">
@@ -55,42 +55,33 @@
             </div>
 
             <nav class="p-4 space-y-1">
-                <!-- Dashboard -->
                 <a href="{{ route('staff_head.dashboard') }}" class="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 rounded-lg group {{ request()->routeIs('staff_head.dashboard') ? 'active-menu' : '' }}">
                     <i class="fas fa-tachometer-alt mr-3 text-gray-500 group-hover:text-blue-500 {{ request()->routeIs('staff_head.dashboard') ? 'text-blue-500' : '' }}"></i>
                     Dashboard
                 </a>
-
-                <!-- Team Management -->
                 <a href="{{ route('staff_head.team.index') }}" class="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 rounded-lg group {{ request()->routeIs('staff_head.team.*') ? 'active-menu' : '' }}">
                     <i class="fas fa-users mr-3 text-gray-500 group-hover:text-blue-500 {{ request()->routeIs('staff_head.team.*') ? 'text-blue-500' : '' }}"></i>
                     Team Management
                 </a>
-
-                <!-- Attendance Management -->
                 <a href="{{ route('staff_head.attendance.index') }}" class="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 rounded-lg group {{ request()->routeIs('staff_head.attendance.*') ? 'active-menu' : '' }}">
                     <i class="fas fa-user-clock mr-3 text-gray-500 group-hover:text-blue-500 {{ request()->routeIs('staff_head.attendance.*') ? 'text-blue-500' : '' }}"></i>
                     Attendance
                 </a>
-
-                <!-- Leave Approvals -->
                 <a href="{{ route('staff_head.leave.index') }}" class="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 rounded-lg group {{ request()->routeIs('staff_head.leave.*') ? 'active-menu' : '' }}">
                     <i class="fas fa-calendar-check mr-3 text-gray-500 group-hover:text-blue-500 {{ request()->routeIs('staff_head.leave.*') ? 'text-blue-500' : '' }}"></i>
                     Leave Approvals
                 </a>
-
-                <!-- Team Announcements -->
                 <a href="{{ route('staff_head.announcements.index') }}" class="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 rounded-lg group {{ request()->routeIs('staff_head.announcements.*') ? 'active-menu' : '' }}">
                     <i class="fas fa-bullhorn mr-3 text-gray-500 group-hover:text-blue-500 {{ request()->routeIs('staff_head.announcements.*') ? 'text-blue-500' : '' }}"></i>
                     Announcements
                 </a>
             </nav>
         </div>
-        
+
         <!-- Main Content -->
         <div class="flex-1 flex flex-col overflow-hidden">
             <!-- Top Navigation -->
-            <header class="bg-white shadow-sm z-10">
+            <header class="bg-white shadow-sm z-10 relative">
                 <div class="flex items-center justify-between px-6 py-3">
                     <div class="flex items-center">
                         <button id="sidebarToggle" class="md:hidden text-gray-500 focus:outline-none mr-4">
@@ -98,22 +89,40 @@
                         </button>
                         <h2 class="text-lg font-medium text-gray-800">@yield('title', 'Dashboard')</h2>
                     </div>
-                    
-                    <div class="flex items-center space-x-4">
+
+                    <div class="flex items-center space-x-4 relative">
                         <button class="text-gray-500 hover:text-gray-700 focus:outline-none">
                             <i class="fas fa-bell"></i>
-                            <span class="absolute top-2 right-2 h-2 w-2 rounded-full bg-red-500"></span>
+                            <span class="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-red-500"></span>
                         </button>
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button type="submit" class="text-gray-500 hover:text-gray-700 focus:outline-none">
-                                <i class="fas fa-sign-out-alt"></i> Logout
+
+                        <!-- User Dropdown -->
+                        <div class="relative">
+                            <button id="userMenuButton" class="flex items-center text-gray-700 hover:text-blue-600 focus:outline-none">
+                                <i class="fas fa-user-circle text-xl mr-2"></i>
+                                <span>{{ Auth::user()->name }}</span>
+                                <i class="fas fa-chevron-down ml-1 text-xs"></i>
                             </button>
-                        </form>
+
+                            <div id="userMenu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200">
+                                <div class="px-4 py-2 text-sm text-gray-700 border-b border-gray-100">
+                                    Signed in as <span class="font-medium">{{ Auth::user()->name }}</span>
+                                </div>
+                                <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                                    <i class="fas fa-user mr-2"></i> Profile
+                                </a>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                                        <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </header>
-            
+
             <!-- Page Content -->
             <main class="flex-1 overflow-y-auto p-6 bg-gray-50 pb-20">
                 @yield('content')
@@ -121,21 +130,35 @@
         </div>
     </div>
 
+    <!-- Scripts -->
     <script>
         document.getElementById('sidebarToggle').addEventListener('click', function() {
             document.querySelector('.sidebar').classList.toggle('hidden');
         });
+
+        const userMenuBtn = document.getElementById('userMenuButton');
+        const userMenu = document.getElementById('userMenu');
+
+        userMenuBtn.addEventListener('click', () => {
+            userMenu.classList.toggle('hidden');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!userMenu.contains(e.target) && !userMenuBtn.contains(e.target)) {
+                userMenu.classList.add('hidden');
+            }
+        });
     </script>
-    @else
-        <div class="flex items-center justify-center h-screen bg-gray-100">
-            <div class="text-center p-8 bg-white rounded-lg shadow-md max-w-md">
-                <h1 class="text-2xl font-bold text-gray-800 mb-4">Access Denied</h1>
-                <p class="text-gray-600 mb-6">You don't have permission to access this page.</p>
-                <a href="{{ route('home') }}" class="inline-block px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
-                    Return to Home
-                </a>
-            </div>
+@else
+    <div class="flex items-center justify-center h-screen bg-gray-100">
+        <div class="text-center p-8 bg-white rounded-lg shadow-md max-w-md">
+            <h1 class="text-2xl font-bold text-gray-800 mb-4">Access Denied</h1>
+            <p class="text-gray-600 mb-6">You don't have permission to access this page.</p>
+            <a href="{{ route('home') }}" class="inline-block px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+                Return to Home
+            </a>
         </div>
-    @endif
+    </div>
+@endif
 </body>
 </html>
