@@ -30,6 +30,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
 
+// routes/web.php
+Route::get('/virtual-tour', function () {
+    return view('virtual_tour');
+})->name('virtual.tour');
+
 // Public routes
 Route::get('/', function () {
     return view('home');
