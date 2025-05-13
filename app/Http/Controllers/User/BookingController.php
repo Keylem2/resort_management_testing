@@ -51,7 +51,7 @@ class BookingController extends Controller
         // Validation (existing rules remain the same)
         $validated = $request->validate([
             'room_id' => 'required|exists:rooms,id',
-            'check_in' => 'required|date|after:today|unique:'.Booking::class.'',
+            'check_in' => 'required|date|after:today|unique:bookings,check_in,NULL,id,room_id,' . $request->room_id,
             'check_out' => 'required|date|after:check_in',
             'guests' => 'required|integer|min:1',
             'payment_method' => 'required|in:gcash_deposit,gcash_full',
