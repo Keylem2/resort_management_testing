@@ -9,7 +9,7 @@
 
         @forelse($pendingBookings as $booking)
             <div class="mb-4 border-b pb-4">
-                <p class="text-gray-700 mb-2">Booking ID: <strong>#{{ $booking->id }}</strong></p>
+                <!-- <p class="text-gray-700 mb-2">Booking ID: <strong>#{{ $booking->id }}</strong></p> -->
                 <p class="text-gray-700 mb-2">Room: <strong>{{ $booking->room->room_type }} (Room #{{ $booking->room->room_number }})</strong></p>
                 <p class="text-gray-700 mb-2">Check-in: <strong>{{ $booking->check_in->format('F d, Y') }}</strong></p>
                 <p class="text-gray-700 mb-2">Check-out: <strong>{{ $booking->check_out->format('F d, Y') }}</strong></p>

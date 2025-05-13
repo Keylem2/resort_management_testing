@@ -18,6 +18,13 @@ use App\Http\Controllers\StaffHead\TeamController;
 use App\Http\Controllers\StaffHead\AttendanceController as StaffHeadAttendanceController;
 use App\Http\Controllers\StaffHead\StaffHeadLeaveRequestController;
 use App\Http\Controllers\StaffHead\AnnouncementController;
+use App\Http\Controllers\StaffTeam\AnnouncementController as StaffTeamAnnouncementController;
+use App\Http\Controllers\StaffTeam\AttendanceController as StaffTeamAttendanceController;
+use App\Http\Controllers\StaffTeam\InventoryController as StaffTeamInventoryController;
+use App\Http\Controllers\StaffTeam\StaffTeamController;
+use App\Http\Controllers\StaffTeam\TaskController as StaffTeamTaskController;
+use App\Http\Controllers\StaffTeam\Position\HousekeeperController;
+use App\Http\Controllers\StaffTeam\Position\LifeguardController;
 use App\Http\Controllers\HR\HRController;
 use App\Http\Controllers\HR\AttendanceController;
 use App\Http\Controllers\ProfileController;
@@ -211,14 +218,25 @@ Route::middleware(['auth', 'verified', 'staff_head'])->prefix('staff-head')->nam
 
 // Staff Team Routes (for both lifeguards and housekeepers)
 Route::middleware(['auth', 'verified'])->prefix('staff')->name('staff_team.')->group(function () {
-    // Shared routes
+    // Dashboard
     Route::get('/dashboard', [StaffTeamController::class, 'dashboard'])->name('dashboard');
+    
+    // Attendance
     Route::get('/attendance', [StaffTeamAttendanceController::class, 'index'])->name('attendance.index');
     Route::post('/attendance/check-in', [StaffTeamAttendanceController::class, 'checkIn'])->name('attendance.check_in');
     Route::post('/attendance/check-out', [StaffTeamAttendanceController::class, 'checkOut'])->name('attendance.check_out');
     
-    Route::resource('/tasks', StaffTeamTaskController::class)->only(['index', 'show', 'update']);
-    Route::resource('/inventory', StaffTeamInventoryController::class)->only(['index', 'create', 'store']);
+    // Tasks
+    Route::get('/tasks', [StaffTeamTaskController::class, 'index'])->name('tasks.index');
+    Route::get('/tasks/{task}', [StaffTeamTaskController::class, 'show'])->name('tasks.show');
+    Route::put('/tasks/{task}', [StaffTeamTaskController::class, 'update'])->name('tasks.update');
+    
+    // Inventory
+    Route::get('/inventory', [StaffTeamInventoryController::class, 'index'])->name('inventory.index');
+    Route::get('/inventory/create', [StaffTeamInventoryController::class, 'create'])->name('inventory.create');
+    Route::post('/inventory', [StaffTeamInventoryController::class, 'store'])->name('inventory.store');
+    
+    // Announcements
     Route::get('/announcements', [StaffTeamAnnouncementController::class, 'index'])->name('announcements.index');
     
     // Position-specific routes

@@ -33,15 +33,15 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm font-medium text-gray-500">Today's Tasks</p>
-                    <h3 class="text-2xl font-bold text-gray-800 mt-1">{{ $todaysTasks }}</h3>
+                    <h3 class="text-2xl font-bold text-gray-800 mt-1">{{ $todaysTasks ?? 0 }}</h3>
                 </div>
                 <div class="p-3 rounded-lg bg-blue-100 text-blue-600">
                     <i class="fas fa-tasks text-xl"></i>
                 </div>
             </div>
             <div class="mt-4">
-                <span class="text-sm font-medium {{ $tasksCompletedPercent >= 80 ? 'text-green-600' : ($tasksCompletedPercent >= 50 ? 'text-amber-600' : 'text-red-600') }}">
-                    {{ $tasksCompletedPercent }}% completed
+                <span class="text-sm font-medium {{ ($tasksCompletedPercent ?? 0) >= 80 ? 'text-green-600' : (($tasksCompletedPercent ?? 0) >= 50 ? 'text-amber-600' : 'text-red-600') }}">
+                    {{ $tasksCompletedPercent ?? 0 }}% completed
                 </span>
             </div>
         </div>
@@ -69,7 +69,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm font-medium text-gray-500">Inventory Requests</p>
-                    <h3 class="text-2xl font-bold text-gray-800 mt-1">{{ $pendingInventoryRequests }}</h3>
+                    <h3 class="text-2xl font-bold text-gray-800 mt-1">{{ $pendingInventoryRequests ?? 0 }}</h3>
                 </div>
                 <div class="p-3 rounded-lg bg-purple-100 text-purple-600">
                     <i class="fas fa-box-open text-xl"></i>
@@ -77,36 +77,36 @@
             </div>
             <div class="mt-4">
                 <span class="text-sm font-medium text-gray-600">
-                    {{ $approvedInventoryRequests }} approved
+                    {{ $approvedInventoryRequests ?? 0 }} approved
                 </span>
             </div>
         </div>
     </div>
 
     <!-- Recent Announcements -->
-    <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 mt-6">
-        <h3 class="text-lg font-bold text-gray-800 mb-4">Recent Announcements</h3>
-        
-        <div class="space-y-4">
-            @forelse($recentAnnouncements as $announcement)
-                <div class="p-4 border border-gray-100 rounded-lg hover:bg-gray-50">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h4 class="font-medium text-gray-900">{{ $announcement->title }}</h4>
-                            <p class="text-sm text-gray-500 mt-1">{{ $announcement->created_at->diffForHumans() }}</p>
+    @if(isset($recentAnnouncements) && $recentAnnouncements->isNotEmpty())
+        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 mt-6">
+            <h3 class="text-lg font-bold text-gray-800 mb-4">Recent Announcements</h3>
+            
+            <div class="space-y-4">
+                @foreach($recentAnnouncements as $announcement)
+                    <div class="p-4 border border-gray-100 rounded-lg hover:bg-gray-50">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 class="font-medium text-gray-900">{{ $announcement->title }}</h4>
+                                <p class="text-sm text-gray-500 mt-1">{{ $announcement->created_at->diffForHumans() }}</p>
+                            </div>
+                            @if($announcement->is_new ?? false)
+                                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
+                                    New
+                                </span>
+                            @endif
                         </div>
-                        @if($announcement->is_new))
-                            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
-                                New
-                            </span>
-                        @endif
+                        <p class="text-sm text-gray-600 mt-2">{{ Str::limit($announcement->content, 120) }}</p>
                     </div>
-                    <p class="text-sm text-gray-600 mt-2">{{ Str::limit($announcement->content, 120) }}</p>
-                </div>
-            @empty
-                <p class="text-center text-gray-500">No announcements yet</p>
-            @endforelse
+                @endforeach
+            </div>
         </div>
-    </div>
+    @endif
 </div>
 @endsection

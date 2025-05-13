@@ -101,13 +101,13 @@
 document.addEventListener('DOMContentLoaded', function () {
     pannellum.viewer('couple-room-preview', {
         "type": "equirectangular",
-        "panorama": "/storage/360_images/couple_room.jpg",  // Update with actual path
+        "panorama": "/storage/360_images/couple_room_360.jpg",  // Update with actual path
         "autoLoad": true
     });
 
     pannellum.viewer('family-room-preview', {
         "type": "equirectangular",
-        "panorama": "/storage/360_images/family_room.jpg",  // Update with actual path
+        "panorama": "/storage/360_images/family_room_360.jpg",  // Update with actual path
         "autoLoad": true
     });
 });
@@ -123,7 +123,7 @@ function openFullscreenViewer(roomType) {
 
     pannellum.viewer('fullscreen-viewer', {
         "type": "equirectangular",
-        "panorama": `/storage/360_images/${roomType}_room.jpg`,
+        "panorama": `/storage/360_images/${roomType}_room_360.jpg`,
         "autoLoad": true
     });
 }

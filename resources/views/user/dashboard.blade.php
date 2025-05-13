@@ -8,7 +8,7 @@
     <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between">
             <div>
-                <h2 class="text-2xl font-bold text-gray-800">Welcome back, {{ Auth::user()->name }}!</h2>
+                <h2 class="text-2xl font-bold text-gray-800">Welcome, {{ Auth::user()->name }}!</h2>
                 <p class="text-gray-600 mt-1">Here's your booking overview at Blue Belle Resort.</p>
             </div>
             <div class="mt-4 md:mt-0">
