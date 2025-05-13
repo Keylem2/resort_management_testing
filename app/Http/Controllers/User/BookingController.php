@@ -34,7 +34,8 @@ class BookingController extends Controller
         session(['form_token' => $formToken]);
 
         $rooms = Room::where('status', 'available')->get();
-
+        // $bookingss = Booking::all();
+        // dd($checkInDate);
         return view('user.bookings.create', compact('rooms', 'room', 'formToken'));
     }
 
@@ -46,11 +47,11 @@ class BookingController extends Controller
         if (!session()->has('form_token') || session('form_token') !== $request->input('form_token')) {
             return redirect()->back()->withErrors(['form' => 'Invalid form submission.']);
         }
-
+        // dd($reserved);
         // Validation (existing rules remain the same)
         $validated = $request->validate([
             'room_id' => 'required|exists:rooms,id',
-            'check_in' => 'required|date|after:today',
+            'check_in' => 'required|date|after:today|unique:'.Booking::class.'',
             'check_out' => 'required|date|after:check_in',
             'guests' => 'required|integer|min:1',
             'payment_method' => 'required|in:gcash_deposit,gcash_full',

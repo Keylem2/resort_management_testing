@@ -25,11 +25,11 @@ class Booking extends Model
         'payment_status',
         'payment_method',
         'finance_notes',
-'rejection_reason',
-'approved_by',
-'approved_at',
-'rejected_by',
-'rejected_at',
+        'rejection_reason',
+        'approved_by',
+        'approved_at',
+        'rejected_by',
+        'rejected_at',
     ];
 
     protected $casts = [
@@ -87,12 +87,12 @@ class Booking extends Model
 
         foreach ($defaultAmenities as $itemName => $quantity) {
             $inventory = Inventory::where('name', $itemName)->first();
-            
+
             if ($inventory) {
                 $this->inventoryItems()->attach($inventory->id, [
                     'quantity_used' => $quantity
                 ]);
-                
+
                 // Only deduct stock if consumable
                 if ($inventory->is_consumable) {
                     $inventory->decrement('stock_quantity', $quantity);

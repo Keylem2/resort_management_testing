@@ -38,7 +38,7 @@ class RoomController extends Controller
         $rooms = Room::where('room_type', $type)
             ->orderBy('room_number')
             ->get();
-
+            
         // Return the appropriate view based on the room type
         if ($type == 'Couple Room') {
             return view('user.rooms.couple', compact('rooms')); // Pass rooms to the couple view
